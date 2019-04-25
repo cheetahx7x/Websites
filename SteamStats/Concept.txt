@@ -1,0 +1,9 @@
+Pages:
+- Main Page
+- Summary
+- Owned Games maybe Achievements
+- Friends maybe Library Comparison and Groups
+
+
+Main Page:
+- 1 Feld für SteamID und Button für Query

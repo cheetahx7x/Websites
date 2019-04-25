@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>4aWI</title>
+    <link rel="shortcut icon" type="image/png" href="./Icons/favicon-32x32.png"/>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $(function(){
+            playersummary = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=0FFED4944068F65A10481D7F74EFA1F7&format=json&steamids=";
+            
+            $("#query").click(function(){getData(playersummary,)});
+        });
+
+        function getData(){
+            var id= document.getElementById("steamid").value;
+                arguments[0] += id;
+                $.ajax({
+                    method:"GET",
+                    async: true,
+                    crossDomain: true,
+                    url:arguments[0],
+                    headers: {
+                        'Access-Control-Allow-Origin':'http://api.steampowered.com'
+                    },
+                    beforeSend: function(){
+                        $("body").css("cursor", "progress");
+                    },
+                    success: sortData,
+                    error: function(error){
+                    console.log(error);
+                    $("body").css("cursor", "default");
+                    }
+                });
+        };
+
+        function sortData(data){
+            console.log(data);
+            switchSection(1);
+        }
+    </script>
+</head>
+
+<body id="bootstrap-overrides">
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">Steam Lookup</a>
+    </div>
+
+    <div class="flex-container" id="header">
+            <span style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776; </span>
+            <a href="#" onclick="switchSection(0);return false;">Main</a>
+            <a href="#" onclick="switchSection(1);return false;">Summary</a>
+            <a href="#" onclick="switchSection(2);return false;">Owned Games</a>
+            <a href="#" onclick="switchSection(3);return false;">Friends</a>
+    </div>
+
+    <div id="sections" class="container-fluid">
+
+        <div class="row" id="main">
+            <input id="steamid" maxlength="17" placeholder="Steam64ID"></input>
+            <button id="query">Query</button>
+        </div>
+
+        <div class="row" id="summary">
+
+        </div>
+
+        <div class="row" id="owned">
+
+        </div>
+
+        <div class="row" id="friends">
+
+        </div>
+    </div>
+    
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+    
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function switchSection($section) {
+        document.getElementById("sections").children.item($section).scrollIntoView({behavior: "smooth"});
+    }
+    </script>
+
+
+</body>
+
+</html>

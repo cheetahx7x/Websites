@@ -1,0 +1,129 @@
+<html>
+<head>
+    <title>4aWI</title>
+    <link rel="shortcut icon" type="image/png" href="./Icons/favicon-32x32.png"/>
+    <link rel="stylesheet" href="styles.css" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script>
+        $(function(){
+            bundesliga = "https://api.football-data.org/v2/competitions/2002/matches?status=FINISHED";
+            championsship = "https://api.football-data.org/v2/competitions/2016/matches?status=FINISHED";
+            cup = "https://api.football-data.org/v2/competitions/2000/matches?status=FINISHED";
+            championsleague = "https://api.football-data.org/v2/competitions/2001/matches?status=FINISHED";
+            
+            $("#bundesliga").click(function(){getData(bundesliga)});
+            $("#championship").click(function(){getData(championsship)}); 
+            $("#cup").click(function(){getData(cup)});
+            $("#championsleague").click(function(){getData(championsleague)});
+        });
+
+        function getData(){
+            $("#stats").html("<div class='row'><div class='col-lg-5' style='font-weight: 1000'>Hometeam</div><div class='col-lg-5' style='font-weight: 1000'>Awayteam</div> <div class='col-lg-2' style='font-weight: 1000'>Score</div></div>")
+                $.ajax({
+                    method:"GET",
+                    url:arguments[0],
+                    headers: {
+                        "X-Auth-Token":"2f44e10765d84fb99d809aedbbd7dbbc"
+                    },
+                    beforeSend: function(){
+                        $("body").css("cursor", "progress");
+                    },
+                    success: sortData,
+                    error: function(error){
+                    console.log(error);
+                    $("body").css("cursor", "default");
+                    }
+                });
+        };
+
+        function sortData(data){
+            console.log(data);
+            data.matches.forEach(element => {
+                var Output=document.getElementById("stats").innerHTML;
+                var Homescore=element.score.extraTime.homeTeam+element.score.fullTime.homeTeam+element.score.halfTime.homeTeam;
+                var Awayscore=element.score.extraTime.awayTeam+element.score.fullTime.awayTeam+element.score.halfTime.awayTeam;
+                Output+="<div class='row'>";
+                Output+="<div class='col-lg-5'>"+element.homeTeam.name+"</div>";
+                Output+="<div class='col-lg-5'>"+element.awayTeam.name+"</div>";
+                Output+="<div class='col-lg-2'>"+Homescore+" - "+Awayscore+"</div>";
+                Output+="</div>";
+                $("#stats").html(Output);
+                $("body").css("cursor", "default");
+            });
+        }
+    </script>
+</head>
+
+<body id="bootstrap-overrides">
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">Homepage</a>
+        <a href="Tiger.html">Tiger</a>
+    </div>
+
+    <div id="sections" class="container-fluid">
+        <div class="flex-container" id="header">
+            <span style="font-size:30px;cursor:pointer" color="white" onclick="openNav()">&#9776; </span>
+            <a href="#" onclick="switchSection(2);return false;">Main</a>
+            <a href="#" onclick="switchSection(3);return false;">Über Uns</a>
+        </div>
+
+        <h1>Fussball</h1>
+
+        <div class="row" id="main">
+            <div class="flex-container" id="auswahl">
+                <div id="bundesliga">
+                    <a>Bundesliga</a>
+                </div>
+                <div id="championship">
+                    <a>Championship</a>
+                </div>
+                <div id="cup">
+                    <a>FIFA World Cup</a>
+                </div>
+                <div id="championsleague">
+                    <a>UEFA Champions League</a>
+                </div>
+            </div>
+            <div class="container" id="stats">
+               <div class="row">
+                    <div class="col-lg-5" style="font-weight: 1000">Hometeam</div>
+                    <div class="col-lg-5" style="font-weight: 1000">Awayteam</div> 
+                    <div class="col-lg-2" style="font-weight: 1000">Score</div>
+               </div>
+            </div>
+        </div>
+
+
+
+        <div class="row" id="info">
+
+        </div>
+    </div>
+    
+
+    <script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+    
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+
+    function switchSection($section) {
+        document.getElementById("sections").children.item($section).scrollIntoView({behavior: "smooth"});
+    }
+
+    function switchtable($table) {
+        document.getElementById("")
+    }
+    </script>
+
+
+</body>
+
+</html>
